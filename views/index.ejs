@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript">
+      function getValue() {
+        var rowId = event.target.parentNode.parentNode.id;
+        var rowData = document.getElementById(rowId).querySelectorAll('.row-data');
+        var id = rowData[0].innerText;
+        var title = rowData[1].innerText;
+        var author = rowData[2].innerText;
+        var isbn = rowData[3].innerText;
+        var number = rowData[4].innerText;
+        var year = rowData[5].innerText;
+        document.getElementById('form-update-id').value = id;
+        document.getElementById('form-update-title').value = title;
+        document.getElementById('form-update-author').value = author;
+        document.getElementById('form-update-isbn').value = isbn;
+        document.getElementById('form-update-number').value = number;
+        document.getElementById('form-update-year').value = year;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="insert-form">
+        <h1>Add Paper</h1>
+        <form id="create" method="POST" action="/" enctype="multipart/form-data">
+          <input type="text" name="paper_id" placeholder="Paper Id" />
+          <input type="text" name="paper_title" placeholder="Title" />
+          <input type="text" name="paper_author" placeholder="Author" />
+          <input type="text" name="paper_isbn" placeholder="ISBN" />
+          <input type="number" name="paper_number" placeholder="Page Number" />
+          <input type="number" name="paper_publish_year" placeholder="Year" />
+          <input type="submit" value="Add" />
+        </form>
+      </div>
+      <div class="update-form">
+        <h1>Update Paper</h1>
+        <form id="form-update" method="POST" action="/update" enctype="multipart/form-data">
+          <input readonly id="form-update-id" type="text" name="paper_id" placeholder="Paper Id" />
+          <input id="form-update-title" type="text" name="paper_title" placeholder="Title" />
+          <input id="form-update-author" type="text" name="paper_author" placeholder="Author" />
+          <input id="form-update-isbn" type="text" name="paper_isbn" placeholder="ISBN" />
+          <input id="form-update-number" type="number" name="paper_number" placeholder="Page Number" />
+          <input id="form-update-year" type="number" name="paper_publish_year" placeholder="Year" />
+          <input type="submit" value="Update" />
+        </form>
+      </div>
+      <div class="title">
+        <h1>Paper List</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Paper Id</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>ISBN</th>
+              <th>Page Number</th>
+              <th>Year</th>
+              <th>Delete</th>
+              <th>Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let i = 0; i < papers.length; i++) {%>
+            <tr id="<%= i+1 %> ">
+              <td class="row-data"><%= papers[i].paper_id %></td>
+              <td class="row-data"><%= papers[i].paper_title %></td>
+              <td class="row-data"><%= papers[i].paper_author %></td>
+              <td class="row-data"><%= papers[i].paper_isbn %></td>
+              <td class="row-data"><%= papers[i].paper_number %></td>
+              <td class="row-data"><%= papers[i].paper_publish_year %></td>
+              <td style="text-align: center">
+                <form id="delete" method="post" action="/delete" enctype="multipart/form-data">
+                  <input type="hidden" name="paper_id" value="<%= papers[i].paper_id %>" />
+                  <input type="submit" value="Delete" />
+                </form>
+              </td>
+              <td style="text-align: center">
+                <button onclick="getValue()" type="button">Choose</button>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

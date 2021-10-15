@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.title h1 {
+    color: red;
+}
+.title {
+    text-align: center;
+}
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.content table {
+    width: 70vw;
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
+.content th {
+    border: 2px solid black;
+    text-align: center;
+}
+
+.content td {
+    border: 2px solid black;
+}
+.content thead {
+    background-color: rgb(71, 173, 71);
+}
+
+.insert-form {
+    text-align: center;
+    border: 1px solid red;
+    padding: 5px 20px 20px 20px;
+    margin-bottom: 10px;
+}
+
+.update-form {
+    text-align: center;
+    border: 1px solid red;
+    padding: 5px 20px 20px 20px;
+}
