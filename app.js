@@ -58,8 +58,8 @@ app.post('/update', upload.fields([]), (req, res) => {
   const params = {
     TableName,
     Key: { paper_id },
-    UpdateExpressSion:
-      'set paper_title:=paper_title, paper_author:=paper_author, paper_isbn:=paper_isbn, paper_number:=paper_number, paper_publish_year:=paper_publish_year',
+    UpdateExpression:
+      'set paper_title=:paper_title, paper_author=:paper_author, paper_isbn=:paper_isbn, paper_number=:paper_number, paper_publish_year=:paper_publish_year',
     ExpressionAttributeValues: {
       ':paper_title': paper_title,
       ':paper_author': paper_author,
