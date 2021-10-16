@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/', upload.fields([]), (req, res) => {
+app.post('/', upload.none(), (req, res) => {
   const { paper_id, paper_title, paper_author, paper_isbn, paper_number, paper_publish_year } = req.body;
   const params = {
     TableName,
@@ -50,7 +50,7 @@ app.post('/', upload.fields([]), (req, res) => {
   });
 });
 
-app.post('/update', upload.fields([]), (req, res) => {
+app.post('/update', upload.none(), (req, res) => {
   const { paper_id, paper_title, paper_author, paper_isbn, paper_number, paper_publish_year } = req.body;
   if (!paper_id) {
     return res.redirect('/');
@@ -67,7 +67,7 @@ app.post('/update', upload.fields([]), (req, res) => {
       ':paper_number': paper_number,
       ':paper_publish_year': paper_publish_year,
     },
-    ReturnValues: 'UPDATE_NEW',
+    ReturnValues: 'UPDATED_NEW',
   };
   docClient.update(params, (err, data) => {
     if (err) {
@@ -77,7 +77,7 @@ app.post('/update', upload.fields([]), (req, res) => {
   });
 });
 
-app.post('/delete', upload.fields([]), (req, res) => {
+app.post('/delete', upload.none(), (req, res) => {
   const { paper_id } = req.body;
   const params = { TableName, Key: { paper_id } };
   docClient.delete(params, (err, data) => {
