@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paper</title>
-    <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript">
+    <script>
       function getValue() {
         var rowId = event.target.parentNode.parentNode.id;
         var rowData = document.getElementById(rowId).querySelectorAll('.row-data');
@@ -24,30 +22,31 @@
         document.getElementById('form-update-year').value = year;
       }
     </script>
+    <title>Paper</title>
   </head>
   <body>
     <div class="content">
       <div class="insert-form">
         <h1>Add Paper</h1>
-        <form id="create" method="POST" action="/" enctype="multipart/form-data">
-          <input type="text" name="paper_id" placeholder="Paper Id" />
+        <form id="create" action="/" method="post" enctype="application/x-www-form-urlencoded">
+          <input type="text" name="paper_id" placeholder="Id" />
           <input type="text" name="paper_title" placeholder="Title" />
           <input type="text" name="paper_author" placeholder="Author" />
           <input type="text" name="paper_isbn" placeholder="ISBN" />
-          <input type="number" name="paper_number" placeholder="Page Number" />
+          <input type="number" name="paper_number" placeholder="Number" />
           <input type="number" name="paper_publish_year" placeholder="Year" />
           <input type="submit" value="Add" />
         </form>
       </div>
       <div class="update-form">
         <h1>Update Paper</h1>
-        <form id="form-update" method="POST" action="/update" enctype="multipart/form-data">
-          <input readonly id="form-update-id" type="text" name="paper_id" placeholder="Paper Id" />
-          <input id="form-update-title" type="text" name="paper_title" placeholder="Title" />
-          <input id="form-update-author" type="text" name="paper_author" placeholder="Author" />
-          <input id="form-update-isbn" type="text" name="paper_isbn" placeholder="ISBN" />
-          <input id="form-update-number" type="number" name="paper_number" placeholder="Page Number" />
-          <input id="form-update-year" type="number" name="paper_publish_year" placeholder="Year" />
+        <form id="form-update" action="/update" method="post" enctype="application/x-www-form-urlencoded">
+          <input type="text" name="paper_id" id="form-update-id" placeholder="Id" />
+          <input type="text" name="paper_title" id="form-update-title" placeholder="Title" />
+          <input type="text" name="paper_author" id="form-update-author" placeholder="Author" />
+          <input type="text" name="paper_isbn" id="form-update-isbn" placeholder="ISBN" />
+          <input type="number" name="paper_number" id="form-update-number" placeholder="Number" />
+          <input type="number" name="paper_publish_year" id="form-update-year" placeholder="Year" />
           <input type="submit" value="Update" />
         </form>
       </div>
@@ -56,11 +55,11 @@
         <table>
           <thead>
             <tr>
-              <th>Paper Id</th>
+              <th>Id</th>
               <th>Name</th>
               <th>Author</th>
               <th>ISBN</th>
-              <th>Page Number</th>
+              <th>Number</th>
               <th>Year</th>
               <th>Delete</th>
               <th>Update</th>
@@ -68,7 +67,7 @@
           </thead>
           <tbody>
             <% for (let i = 0; i < papers.length; i++) {%>
-            <tr id="<%= i+1 %> ">
+            <tr id="<%=i + 1 %>">
               <td class="row-data"><%= papers[i].paper_id %></td>
               <td class="row-data"><%= papers[i].paper_title %></td>
               <td class="row-data"><%= papers[i].paper_author %></td>
@@ -76,8 +75,8 @@
               <td class="row-data"><%= papers[i].paper_number %></td>
               <td class="row-data"><%= papers[i].paper_publish_year %></td>
               <td style="text-align: center">
-                <form id="delete" method="post" action="/delete" enctype="multipart/form-data">
-                  <input type="hidden" name="paper_id" value="<%= papers[i].paper_id %>" />
+                <form action="/delete" method="post" enctype="application/x-www-form-urlencoded">
+                  <input type="hidden" name="paper_id" value="<%= papers[i].paper_id %> " />
                   <input type="submit" value="Delete" />
                 </form>
               </td>
@@ -91,4 +90,20 @@
       </div>
     </div>
   </body>
+  <style>
+    .content table {
+      width: 70vw;
+      border-collapse: collapse;
+      font-size: 20px;
+    }
+    .content th {
+      border: 2px solid black;
+      text-align: center;
+    }
+
+    .content td {
+      border: 2px solid black;
+      text-align: center;
+    }
+  </style>
 </html>

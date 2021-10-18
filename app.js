@@ -2,16 +2,17 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const aws = require('aws-sdk');
-const multer = require('multer');
 require('dotenv').config();
 
-app.use(express.json({ extended: false }));
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
-app.use(express.static('./public'));
-
-const upload = multer();
 
 aws.config.update({
   accessKeyId: process.env.ACCESS_KEY_ID,
@@ -22,6 +23,8 @@ aws.config.update({
 const docClient = new aws.DynamoDB.DocumentClient();
 
 const TableName = 'Paper';
+
+// function xu ly
 app.get('/', (req, res) => {
   const params = { TableName };
   docClient.scan(params, (err, data) => {
@@ -29,7 +32,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/', upload.none(), (req, res) => {
+app.post('/', (req, res) => {
   const { paper_id, paper_title, paper_author, paper_isbn, paper_number, paper_publish_year } = req.body;
   const params = {
     TableName,
@@ -50,7 +53,7 @@ app.post('/', upload.none(), (req, res) => {
   });
 });
 
-app.post('/update', upload.none(), (req, res) => {
+app.post('/update', (req, res) => {
   const { paper_id, paper_title, paper_author, paper_isbn, paper_number, paper_publish_year } = req.body;
   if (!paper_id) {
     return res.redirect('/');
@@ -77,9 +80,9 @@ app.post('/update', upload.none(), (req, res) => {
   });
 });
 
-app.post('/delete', upload.none(), (req, res) => {
+app.post('/delete', (req, res) => {
   const { paper_id } = req.body;
-  const params = { TableName, Key: { paper_id } };
+  const params = { TableName, Key: { paper_id: paper_id.trim() } };
   docClient.delete(params, (err, data) => {
     if (err) {
       throw err;
